@@ -16,12 +16,7 @@
 
   :sub ["ave-core"
         "ave-server-jetty"
-
-        ;; "ave-server-aleph"
-        ;; "ave-router-reitit"
-        ;; "ave-interceptor-json"
-        ;; "ave-interceptor-http"
-        ]
+        "ave-interceptor-json"]
 
   :dependencies
   []
@@ -29,6 +24,7 @@
   :managed-dependencies
   [[ave/core :version]
    [ave/server-jetty :version]
+   [ave/interceptor-json :version]
 
    [org.clojure/clojure "1.10.3"]
    [ch.qos.logback/logback-classic "1.2.3"]
