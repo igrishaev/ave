@@ -1,9 +1,9 @@
-(ns ave.router.reitit
+(ns ave.router-reitit
   (:require
-   [ave.router.reitit.spec :as spec]
-
    [reitit.core :as r]
-   [integrant.core :as ig]))
+   [integrant.core :as ig]
+
+   [clojure.spec.alpha :as s]))
 
 
 (defmethod ig/init-key ::ig
@@ -52,4 +52,19 @@
 
 
 (defmethod ig/pre-init-spec ::ig [_]
-  ::spec/config)
+  ::config)
+
+
+(s/def ::config
+  (s/keys :req-un [::routes
+                   ::command->handler
+                   ::command-not-found]))
+
+(s/def ::command keyword?)
+
+(s/def ::routes vector?)
+
+(s/def ::command->handler
+  (s/map-of ::command fn?))
+
+(s/def ::command-not-found ::command)
