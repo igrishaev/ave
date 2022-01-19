@@ -1,12 +1,12 @@
-(ns ave.server.jetty
+(ns ave.server-jetty
   (:require
    [ave.interceptor :as ai]
-   [ave.server.jetty.spec :as spec]
 
    [exoscale.interceptor :as ei]
    [ring.adapter.jetty :as jetty]
    [integrant.core :as ig]
 
+   [clojure.spec.alpha :as s]
    [clojure.tools.logging :as log]))
 
 
@@ -19,8 +19,8 @@
 
 
 (defmethod ig/init-key ::ig
-  [_ {:keys [params
-             handler
+  [_ {:as jetty-params
+      :keys [handler
              interceptors]}]
 
   (let [stack
@@ -32,7 +32,7 @@
 
         params*
         (-> defaults
-            (merge params)
+            (merge jetty-params)
             (merge overrides))
 
         {:keys [port]}
@@ -53,4 +53,26 @@
 
 
 (defmethod ig/pre-init-spec ::ig [_]
-  ::spec/config)
+  ::config)
+
+
+(s/def ::config
+  (s/keys :req-un [::params
+                   ::handler]
+          :opt-un [::interceptors]))
+
+
+(s/def ::params
+  map?)
+
+
+(s/def ::handler
+  fn?)
+
+
+(s/def ::interceptors
+  (s/coll-of ::interceptor))
+
+
+(s/def ::interceptor
+  fn?)

@@ -1,9 +1,9 @@
-(ns ave.interceptor.json.body
+(ns ave.interceptor.json-params
   (:require
-   [ave.interceptor.json.body.spec :as spec]
-
    [integrant.core :as ig]
-   [ring.middleware.json :as json]))
+   [ring.middleware.json :as json]
+
+   [clojure.spec.alpha :as s]))
 
 
 (defn make [& options]
@@ -12,7 +12,7 @@
    (fn [{:as ctx :keys [request]}]
 
      (if-let [request*
-              (json/json-body-request request options)]
+              (json/json-params-request request options)]
 
        (assoc ctx :request request*)
 
@@ -36,4 +36,12 @@
 
 
 (defmethod ig/pre-init-spec ::ig [_]
-  ::spec/config)
+  ::config)
+
+
+(s/def ::config
+  (s/keys :opt-un [::key-fn
+                   ::keywords?]))
+
+(s/def ::key-fn ifn?)
+(s/def ::keywords? boolean?)
