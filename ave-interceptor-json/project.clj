@@ -24,5 +24,6 @@
     []}}
 
   :dependencies
-  [[cheshire]
+  [[integrant]
+   [cheshire]
    [ring/ring-json]])
