@@ -52,5 +52,5 @@
   (log/info "Jetty server has been stopped"))
 
 
-(defmethod ig/pre-init-spec :handler/greet [_]
+(defmethod ig/pre-init-spec ::ig [_]
   ::spec/config)

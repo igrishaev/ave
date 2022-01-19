@@ -29,7 +29,7 @@
 
          (throw (ex-info message
                          {:ex/type ::malformed-json
-                          :http/code 400
+                          :http/status 400
                           :http/content-type "text/plain"
                           :http/message message})))))})
 
@@ -53,7 +53,7 @@
 
          (throw (ex-info message
                          {:ex/type ::malformed-json
-                          :http/code 400
+                          :http/status 400
                           :http/message message
                           :header/content-type "text/plain"})))))})
 
