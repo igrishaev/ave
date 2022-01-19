@@ -17,8 +17,8 @@
   :sub ["ave-core"
         "ave-server-jetty"
         "ave-interceptor-json"
-        "ave-router-reitit"
-        ]
+        "ave-interceptor-ring"
+        "ave-router-reitit"]
 
   :dependencies
   []
@@ -27,6 +27,7 @@
   [[ave/core :version]
    [ave/server-jetty :version]
    [ave/interceptor-json :version]
+   [ave/interceptor-ring :version]
    [ave/router-reitit :version]
 
    [org.clojure/clojure "1.10.3"]
@@ -38,6 +39,7 @@
    [metosin/reitit-core "0.5.15"]
    [ring/ring-jetty-adapter "1.9.4"]
    [ring/ring-json "0.5.1"]
+   [ring/ring-core "1.9.5"]
    [selmer "1.12.34"]
    [integrant "0.8.0"]
    [metosin/sieppari "0.0.0-alpha13"]
