@@ -1,4 +1,4 @@
-(ns ave.interceptor)
+(ns ave.interceptor.util)
 
 
 (defn handler->interceptor

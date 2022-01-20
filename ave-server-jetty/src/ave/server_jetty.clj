@@ -1,6 +1,6 @@
 (ns ave.server-jetty
   (:require
-   [ave.interceptor :as ai]
+   [ave.interceptor.util :as util]
 
    [exoscale.interceptor :as ei]
    [ring.adapter.jetty :as jetty]
@@ -24,7 +24,7 @@
              interceptors]}]
 
   (let [stack
-        (ai/wrap-stack interceptors handler)
+        (util/wrap-stack interceptors handler)
 
         -handler
         (fn [request]
