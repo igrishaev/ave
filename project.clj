@@ -18,7 +18,10 @@
         "ave-server-jetty"
         "ave-interceptor-json"
         "ave-interceptor-ring"
-        "ave-router-reitit"]
+        "ave-router-reitit"
+        "ave-jdbc"
+        "ave-jdbc-pg"
+        "ave-jdbc-sqlite"]
 
   :dependencies
   []
@@ -29,7 +32,14 @@
    [ave/interceptor-json :version]
    [ave/interceptor-ring :version]
    [ave/router-reitit :version]
+   [ave/db-jdbc :version]
+   [ave/db-pg :version]
+   [ave/db-sqlite :version]
 
+   [org.postgresql/postgresql "42.3.1"]
+   [org.xerial/sqlite-jdbc "3.36.0.3"]
+   [hikari-cp "2.13.0"]
+   [org.clojure/java.jdbc "0.7.12"]
    [org.clojure/clojure "1.10.3"]
    [ch.qos.logback/logback-classic "1.2.3"]
    [cheshire "5.10.0"]
