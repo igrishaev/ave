@@ -24,5 +24,5 @@
     []}}
 
   :dependencies
-  [[ave/db-jdbc]
+  [[ave/db-hikari-cp]
    [org.postgresql/postgresql]])

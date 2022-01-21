@@ -1,7 +1,7 @@
-(defproject ave/core "0.1.0-SNAPSHOT"
+(defproject ave/db-hikari-cp "0.1.0-SNAPSHOT"
 
   :description
-  "Core parts of the Ave framework"
+  "Hikari CP wrapper for Ave"
 
   :plugins [[lein-parent "0.3.8"]]
 
@@ -21,10 +21,7 @@
   {:dev
    {:resource-paths ["../dev-resources"]
     :dependencies
-    [[ch.qos.logback/logback-classic]]}}
+    []}}
 
   :dependencies
-  [[aero]
-   [integrant]
-   [spootnik/signal]
-   [org.clojure/tools.logging]])
+  [[hikari-cp]])

@@ -21,7 +21,8 @@
         "ave-router-reitit"
         "ave-jdbc"
         "ave-jdbc-pg"
-        "ave-jdbc-sqlite"]
+        "ave-jdbc-sqlite"
+        "ava-hikari-cp"]
 
   :dependencies
   []
@@ -35,7 +36,10 @@
    [ave/db-jdbc :version]
    [ave/db-pg :version]
    [ave/db-sqlite :version]
+   [ave/db-hikari-cp :version]
 
+   [aero "1.1.5"]
+   [spootnik/signal "0.2.4"]
    [org.postgresql/postgresql "42.3.1"]
    [org.xerial/sqlite-jdbc "3.36.0.3"]
    [hikari-cp "2.13.0"]

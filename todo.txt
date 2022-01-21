@@ -1,0 +1,17 @@
+aleph-server
+aleph-client
+clj-http-client
+cron
+router-bidi
+kafka-kinsky
+cassandra
+unilog
+sentry
+error middleware
+selmer
+redis
+memcache
+mysql
+
+repl
+test fixture

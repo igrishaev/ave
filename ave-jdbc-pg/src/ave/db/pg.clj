@@ -1,27 +1,16 @@
 (ns ave.db.pg
   (:require
-   [ave.db.jdbc :as jdbc]
-   #_
-   [clojure.java.jdbc :as jdbc]
-   #_
-   [clojure.java.jdbc.spec :as spec]
-   [integrant.core :as ig]
-
-   #_
-   [clojure.spec.alpha :as s]))
+   [ave.db.hickary-cp :as ave.cp]
+   [integrant.core :as ig]))
 
 
-(derive ::ig ::jdbc/ig)
+(derive ::ig ::ave.cp/ig)
 
 
 (def defaults
-  {:dbtype "postgresql"})
+  {:adapter "postgresql"
+   :port-number 5432})
 
 
-(defmethod ig/prep-key :ig [_ jdbc-spec]
-  (merge jdbc-spec defaults))
-
-
-#_
-(defmethod ig/pre-init-spec ::ig [_]
-  ::spec/db-spec)
+(defmethod ig/prep-key :ig [_ pool-params]
+  (merge defaults pool-params))
