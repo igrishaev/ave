@@ -15,14 +15,15 @@
    [exoscale/lein-replace "0.1.1"]]
 
   :sub ["ave-core"
-        "ave-server-jetty"
+        "ava-hikari-cp"
         "ave-interceptor-json"
         "ave-interceptor-ring"
-        "ave-router-reitit"
         "ave-jdbc"
         "ave-jdbc-pg"
         "ave-jdbc-sqlite"
-        "ava-hikari-cp"]
+        "ave-logging-unilog"
+        "ave-router-reitit"
+        "ave-server-jetty"]
 
   :dependencies
   []
@@ -37,7 +38,9 @@
    [ave/db-pg :version]
    [ave/db-sqlite :version]
    [ave/db-hikari-cp :version]
+   [ave/logging-unilog :version]
 
+   [spootnik/unilog "0.7.29"]
    [aero "1.1.5"]
    [spootnik/signal "0.2.4"]
    [org.postgresql/postgresql "42.3.1"]
