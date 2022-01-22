@@ -6,7 +6,9 @@
   :description
   "Ave demo application"
 
+  #_
   :source-paths
+  #_
   ["src"
    "ava-hikari-cp/src"
    "ave-core/src"
@@ -19,6 +21,12 @@
    "ave-logging-unilog/src"
    "ave-router-reitit/src"
    "ave-server-jetty/src"]
+
+  :main ave.demo.app
+
+  :profiles
+  {:uberjar
+   {:aot :all}}
 
   :dependencies
   [[org.clojure/clojure "1.10.3"]

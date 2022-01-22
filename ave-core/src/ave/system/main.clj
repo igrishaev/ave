@@ -12,8 +12,14 @@
    [clojure.tools.logging :as log]))
 
 
-(defonce ^:private ^:dynamic
-  *system* nil)
+(defonce ^:private
+  -system (atom nil))
+
+(defn- -set-system [system]
+  (reset! -system system))
+
+(defn- -get-system []
+  @-system)
 
 
 (defn ex-handler-default
@@ -61,46 +67,48 @@
 
   (try
 
-    (binding [*system* nil]
+    (log/infof "Preparing the system...")
 
-      (log/infof "Preparing the system...")
+    (let [config
+          (or config
+              (load-config options))
 
-      (let [config
-            (or config
-                (load-config options))
+          ns-syms
+          (ig/load-namespaces config)]
 
-            ns-syms
-            (ig/load-namespaces config)]
+      (log/infof "Loaded namespaces: %s"
+                 (with-out-str
+                   (println)
+                   (doseq [sym ns-syms]
+                     (println " -" sym))))
 
-        (log/infof "Loaded namespaces: %s"
-                   (with-out-str
-                     (println)
-                     (doseq [sym ns-syms]
-                       (println " -" sym))))
+      ;; hack
+      (ig/init
+       (select-keys config [:ave.logging.unilog/ig]))
 
-        (set! *system* (ig/init config))
+      (-set-system (ig/init config))
 
-        (log/infof "The system has been started")
+      (log/infof "The system has been started")
 
-        (signal/with-handler :term
-          (log/infof "Caught SIGTERM, quitting")
-          (ig/halt! *system*)
-          (log/infof "The system has been stopped")
-          (System/exit 0))
+      (signal/with-handler :term
+        (log/infof "Caught SIGTERM, quitting")
+        (ig/halt! (-get-system))
+        (log/infof "The system has been stopped")
+        (System/exit 0))
 
-        (signal/with-handler :int
-          (log/info "Caught SIGINT, quitting")
-          (ig/halt! *system*)
-          (log/infof "The system has been stopped")
-          (System/exit 0))
+      (signal/with-handler :int
+        (log/info "Caught SIGINT, quitting")
+        (ig/halt! (-get-system))
+        (log/infof "The system has been stopped")
+        (System/exit 0))
 
-        (signal/with-handler :hup
-          (log/info "Caught SIGHUP, restarting")
-          (ig/halt! *system*)
-          (set! *system* (ig/init config))
-          (log/info "The system has been restarted"))
+      (signal/with-handler :hup
+        (log/info "Caught SIGHUP, restarting")
+        (ig/halt! (-get-system))
+        (-set-system (ig/init config))
+        (log/info "The system has been restarted"))
 
-        nil))
+      nil)
 
     (catch Throwable e
       (let [handler
