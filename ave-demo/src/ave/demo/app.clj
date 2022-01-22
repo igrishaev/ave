@@ -12,6 +12,9 @@
     :profile
     :prod
 
+    :weights
+    {:ave.logging.unilog/ig 0}
+
     :ex-handler
     (fn [e opts]
       (println e))}))
