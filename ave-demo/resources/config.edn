@@ -1,0 +1,83 @@
+
+
+{
+ ;;
+ ;; Handlers
+ ;;
+
+ :ave.demo.handler.api/ig
+ nil
+
+ :ave.demo.handler.hello/ig
+ nil
+
+ :ave.demo.handler.help/ig
+ nil
+
+ :ave.demo.handler.not-found/ig
+ nil
+
+ ;;
+ ;; Interceptors
+ ;;
+
+ :ave.interceptor.request-id/ig
+ nil
+
+ :ave.interceptor.json-response/ig
+ nil
+
+ :ave.interceptor.json-body/ig
+ nil
+
+ :ave.interceptor.params/ig
+ nil
+
+ :ave.interceptor.keyword-params/ig
+ nil
+
+ ;;
+ ;; Router
+ ;;
+
+ :ave.router-reitit/ig
+ {:routes
+  [["/api"   {:get :handler/api}]
+   ["/hello" {:get :handler/hello}]
+   ["/help"  {:get :handler/help}]]
+
+  :command->handler
+  {:handler/api
+   #ig/ref :ave.demo.handler.api/ig
+
+   :handler/hello
+   #ig/ref :ave.demo.handler.hello/ig
+
+   :handler/help
+   #ig/ref :ave.demo.handler.help/ig
+
+   :handler/not-found
+   #ig/ref :ave.demo.handler.not-found/ig}
+
+  :command-not-found
+  :handler/not-found}
+
+ ;;
+ ;; Server
+ ;;
+
+ :ave.server-jetty/ig
+ {:port
+  8088
+
+  :handler
+  #ig/ref :ave.router-reitit/ig
+
+  :interceptors
+  [
+   #ig/ref :ave.interceptor.request-id/ig
+   #ig/ref :ave.interceptor.json-response/ig
+   ;; #ig/ref :ave.interceptor.json-body/ig
+   ;; #ig/ref :ave.interceptor.params/ig
+   ;; #ig/ref :ave.interceptor.keyword-params/ig
+   ]}}

@@ -6,7 +6,7 @@
    [clojure.spec.alpha :as s]))
 
 
-(defn make [& options]
+(defn make [& [options]]
   {:name ::interceptor
    :leave
    (fn [ctx]
@@ -23,7 +23,7 @@
 
 
 (defmethod ig/pre-init-spec ::ig [_]
-  ::config)
+  (s/nilable ::config))
 
 
 (s/def ::config

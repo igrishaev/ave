@@ -5,13 +5,17 @@ cron
 router-bidi
 kafka-kinsky
 cassandra
-unilog
 sentry
 error middleware
 selmer
 redis
 memcache
 mysql
+migratus
+ragtime
+nrepl
+datomic
+datascript?
 
 repl
 test fixture

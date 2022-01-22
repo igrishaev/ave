@@ -18,7 +18,12 @@
              [:profiles :dev]]}
 
   :profiles
-  {:dev
+  {:test
+   {:dependencies
+    [[ave/core]
+     [exoscale/interceptor]]}
+
+   :dev
    {:resource-paths ["../dev-resources"]
     :dependencies
     []}}

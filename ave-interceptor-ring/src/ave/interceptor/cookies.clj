@@ -6,7 +6,7 @@
    [clojure.spec.alpha :as s]))
 
 
-(defn make [& options]
+(defn make [& [options]]
   {:name ::interceptor
    :enter
    (fn [ctx]

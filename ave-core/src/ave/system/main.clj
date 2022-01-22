@@ -13,44 +13,58 @@
   *system* nil)
 
 
+(defn ex-handler-default [e]
+  (log/errorf e "Error while preparing and running the system")
+  (System/exit 1))
+
+
 (defn main
 
   [{:keys [config-map
-           config-path
-           config-resource]}]
+           config-file
+           config-resource
 
-  (binding [*system* nil]
+           ex-handler]}]
 
-    (log/infof "Preparing the system...")
+  (try
 
-    (let [config
-          (or config-map
-              (-> config-path io/file aero/read-config
-                  config-resource io/resource (or ...) aero/read-config))
+    (binding [*system* nil]
 
-          ns-seq
-          (ig/load-namespaces config)]
+      (log/infof "Preparing the system...")
 
-      (log/infof "Loaded namespaces: %s" ns-seq)
+      (let [config
+            (or config-map
+                (-> config-file io/file aero/read-config
+                    config-resource io/resource (or :todo) aero/read-config))
 
-      (set! *system* (ig/init config))
+            ns-seq
+            (ig/load-namespaces config)]
 
-      (log/infof "The system has been started")
+        (log/infof "Loaded namespaces: %s" ns-seq)
 
-      (signal/with-handler :term
-        (log/infof "Caught SIGTERM, quitting")
-        (ig/halt! *system*)
-        (log/infof "The system has been stopped")
-        (System/exit 0))
-
-      (signal/with-handler :int
-        (log/info "Caught SIGINT, quitting")
-        (ig/halt! *system*)
-        (log/infof "The system has been stopped")
-        (System/exit 0))
-
-      (signal/with-handler :hup
-        (log/info "Caught SIGHUP, restarting")
-        (ig/halt! *system*)
         (set! *system* (ig/init config))
-        (info "The system has been restarted")))))
+
+        (log/infof "The system has been started")
+
+        (signal/with-handler :term
+          (log/infof "Caught SIGTERM, quitting")
+          (ig/halt! *system*)
+          (log/infof "The system has been stopped")
+          (System/exit 0))
+
+        (signal/with-handler :int
+          (log/info "Caught SIGINT, quitting")
+          (ig/halt! *system*)
+          (log/infof "The system has been stopped")
+          (System/exit 0))
+
+        (signal/with-handler :hup
+          (log/info "Caught SIGHUP, restarting")
+          (ig/halt! *system*)
+          (set! *system* (ig/init config))
+          (log/info "The system has been restarted"))))
+
+    (catch Throwable e
+      (let [handler
+            (or ex-handler ex-handler-default)]
+        (handler e)))))

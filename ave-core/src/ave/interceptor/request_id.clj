@@ -6,10 +6,10 @@
 
 
 (defn gen-uuid [_request]
-  (str (UUID/randomString)))
+  (str (UUID/randomUUID)))
 
 
-(defn make [& _]
+(defn make [& [_]]
 
   {:name ::interceptor
    :enter

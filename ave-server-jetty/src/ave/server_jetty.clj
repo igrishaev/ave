@@ -57,13 +57,16 @@
 
 
 (s/def ::config
-  (s/keys :req-un [::params
+  (s/keys :req-un [::port
                    ::handler]
           :opt-un [::interceptors]))
 
 
-(s/def ::params
-  map?)
+(s/def ::port int?)
+
+
+;; (s/def ::params
+;;   map?)
 
 
 (s/def ::handler
@@ -74,5 +77,6 @@
   (s/coll-of ::interceptor))
 
 
+;; todo: better spec
 (s/def ::interceptor
-  fn?)
+  map?)
