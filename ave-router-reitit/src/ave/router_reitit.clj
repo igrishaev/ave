@@ -14,7 +14,8 @@
   (let [router
         (r/router routes)]
 
-    (fn [{:keys [request]}]
+    (fn [{:as ctx
+          :keys [request]}]
 
       (let [{:keys [uri
                     request-method]}
@@ -42,13 +43,15 @@
                         :reitit/command command
                         :reitit/data data})))
 
-            request*
-            (assoc request
-                   :command command
-                   :path path
-                   :path-params path-params)]
+            ctx*
+            (update ctx
+                    :request
+                    merge
+                    {:command command
+                     :path path
+                     :path-params path-params})]
 
-        (handler request*)))))
+        (handler ctx*)))))
 
 
 (defmethod ig/pre-init-spec ::ig [_]

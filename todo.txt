@@ -16,6 +16,8 @@ ragtime
 nrepl
 datomic
 datascript?
+ex-nice
+pg-extend
 
 repl
 test fixture

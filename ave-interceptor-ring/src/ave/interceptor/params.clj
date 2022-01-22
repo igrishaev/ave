@@ -10,7 +10,7 @@
   {:name ::interceptor
    :enter
    (fn [ctx]
-     (update ctx :request params/wrap-params options))})
+     (update ctx :request params/params-request options))})
 
 
 (def default

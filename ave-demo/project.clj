@@ -6,20 +6,19 @@
   :description
   "Ave demo application"
 
-;; ava-hikari-cp/src
-;; ave-core/src
-;; ave-demo/src
-;; ave-interceptor-json/src
-;; ave-interceptor-ring/src
-;; ave-jdbc/src
-;; ave-jdbc-pg/src
-;; ave-jdbc-sqlite/src
-;; ave-logging-unilog/src
-;; ave-router-reitit/src
-;; ave-server-jetty/src
-
-  ;; :source-paths
-  ;; []
+  :source-paths
+  ["src"
+   "ava-hikari-cp/src"
+   "ave-core/src"
+   "ave-demo/src"
+   "ave-interceptor-json/src"
+   "ave-interceptor-ring/src"
+   "ave-jdbc/src"
+   "ave-jdbc-pg/src"
+   "ave-jdbc-sqlite/src"
+   "ave-logging-unilog/src"
+   "ave-router-reitit/src"
+   "ave-server-jetty/src"]
 
   :dependencies
   [[org.clojure/clojure "1.10.3"]
@@ -29,4 +28,5 @@
    [ave/router-reitit ~ave-version]
    [ave/interceptor-json ~ave-version]
    [ave/interceptor-ring ~ave-version]
-   [ave/db-pg ~ave-version]])
+   [ave/db-pg ~ave-version]
+   [ave/logging-unilog ~ave-version]])

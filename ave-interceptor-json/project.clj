@@ -3,7 +3,8 @@
   :description
   "JSON interceptor for Ave"
 
-  :plugins [[lein-parent "0.3.8"]]
+  :plugins
+  [[lein-parent "0.3.8"]]
 
   :parent-project
   {:path "../project.clj"

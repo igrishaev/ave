@@ -1,11 +1,14 @@
 (ns ave.system.main
   (:require
-   [clojure.java.io :as io]
+   ave.system.readers
 
    [aero.core :as aero]
    [integrant.core :as ig]
    [signal.handler :as signal]
 
+   [clojure.pprint :as pprint]
+   [clojure.java.io :as io]
+   [clojure.string :as str]
    [clojure.tools.logging :as log]))
 
 
@@ -13,17 +16,47 @@
   *system* nil)
 
 
-(defn ex-handler-default [e]
-  (log/errorf e "Error while preparing and running the system")
+(defn ex-handler-default
+  [e & [options]]
+  (log/errorf e "Error while running the system, params: %s"
+              (with-out-str
+                (pprint/pprint options)))
   (System/exit 1))
+
+
+(defn load-config
+  [{:as options
+    :keys [config-file
+           config-resource
+           profile]}]
+
+  (or (when config-file
+        (-> config-file
+            io/file
+            io/reader
+            (aero/read-config {:profile profile})))
+
+      (when config-resource
+        (-> config-resource
+            io/resource
+            (or (throw
+                 (ex-info
+                  (format "Resource %s doesn't exist" config-resource)
+                  {:type ::load-config
+                   :resource config-resource})))
+            (aero/read-config {:profile profile})))
+
+      (throw
+       (ex-info
+        "Neither config file nor resource is specified"
+        {:type ::load-config
+         :options options}))))
 
 
 (defn main
 
-  [{:keys [config-map
-           config-file
-           config-resource
-
+  [{:as options
+    :keys [config
            ex-handler]}]
 
   (try
@@ -33,14 +66,17 @@
       (log/infof "Preparing the system...")
 
       (let [config
-            (or config-map
-                (-> config-file io/file aero/read-config
-                    config-resource io/resource (or :todo) aero/read-config))
+            (or config
+                (load-config options))
 
-            ns-seq
+            ns-syms
             (ig/load-namespaces config)]
 
-        (log/infof "Loaded namespaces: %s" ns-seq)
+        (log/infof "Loaded namespaces: %s"
+                   (with-out-str
+                     (println)
+                     (doseq [sym ns-syms]
+                       (println " -" sym))))
 
         (set! *system* (ig/init config))
 
@@ -62,9 +98,12 @@
           (log/info "Caught SIGHUP, restarting")
           (ig/halt! *system*)
           (set! *system* (ig/init config))
-          (log/info "The system has been restarted"))))
+          (log/info "The system has been restarted"))
+
+        nil))
 
     (catch Throwable e
       (let [handler
-            (or ex-handler ex-handler-default)]
-        (handler e)))))
+            (or ex-handler
+                ex-handler-default)]
+        (handler e options)))))

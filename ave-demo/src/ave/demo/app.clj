@@ -1,14 +1,23 @@
 (ns ave.demo.app
   (:gen-class)
   (:require
-   [clojure.java.io :as io]
-   [integrant.core :as ig]
-   #_ [ave.system.main :as main]
-   )
-  )
+   [ave.system.main :as main]))
 
 
+(defn -main [& _]
+  (main/main
+   {:config-resource
+    "config.edn"
 
+    :profile
+    :prod
+
+    :ex-handler
+    (fn [e opts]
+      (println e))}))
+
+
+#_
 (defn get-config []
   (-> "config.edn"
       io/resource
@@ -45,9 +54,6 @@
  ave.interceptor.request-id
  ave.router-reitit
  ave.server-jetty)
-
-
-
 
 
 

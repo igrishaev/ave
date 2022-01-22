@@ -22,8 +22,12 @@
   (let [interceptors
         [json-resp/default]
 
+        capture
+        (atom nil)
+
         handler
         (fn [ctx]
+          (reset! capture ctx)
           {:status 200
            :body {:foo 42}})
 
@@ -31,10 +35,13 @@
         (util/wrap-stack interceptors handler)
 
         request
-        {}
+        {:request-method :get}
 
         resp
         (ei/execute {:request request} stack)]
+
+    (is (= {:request-method :get}
+           (:request @capture)))
 
     (is (= {:status 200
             :body "{\"foo\":42}"

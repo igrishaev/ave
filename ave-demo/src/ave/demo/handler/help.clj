@@ -1,5 +1,6 @@
 (ns ave.demo.handler.help
   (:require
+   clojure.pprint
    [integrant.core :as ig]))
 
 
@@ -8,4 +9,5 @@
   (fn [ctx]
     {:status 200
      :headers {"content-type" "text/plain"}
-     :body "This is jus a help page."}))
+     :body (with-out-str
+             (clojure.pprint/pprint ctx))}))
