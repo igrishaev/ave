@@ -34,16 +34,18 @@
 
 (defn -to-ordered-map [config]
 
-  (if-let [{:ave/keys [order]}
-           config]
+  (if-let [order (get config :ave/order)]
 
     (let [fn-cmp
           (fn [key1 key2]
             (compare
              (get order key1 Integer/MAX_VALUE)
-             (get order key2 Integer/MAX_VALUE)))]
+             (get order key2 Integer/MAX_VALUE)))
 
-      (sorted-map-by fn-cmp (mapcat seq config)))
+          config*
+          (dissoc config :ave/order)]
+
+      (apply sorted-map-by fn-cmp (mapcat seq config*)))
 
     config))
 
