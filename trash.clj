@@ -11,3 +11,15 @@
                     (get weights key2 999))))
 
        [:foo :aaa :bbb 42 :ccc "hello"])
+
+
+{:interceptors
+ :router
+ [["/api*"] {:interceptors [... ... ...]
+             :router [["/user"] {:get :handler.api/list-users
+                                 :post :handler.api/create-user}
+
+                      ["/order/:id"] {:get :handler.api/list-users
+                                      :post :handler.api/create-user}
+
+                      ]}]}

@@ -30,7 +30,23 @@
   (System/exit 1))
 
 
-(defn load-config
+(defn -to-ordered-map [config]
+
+  (if-let [{:ave/keys [order]}
+           config]
+
+    (let [fn-cmp
+          (fn [key1 key1]
+            (compare
+             (get order key1 Integer/MAX_VALUE)
+             (get order key2 Integer/MAX_VALUE)))]
+
+      (sorted-map-by fn-cmp (mapcat seq config)))
+
+    config))
+
+
+(defn -pre-load-config
   [{:as options
     :keys [config-file
            config-resource
@@ -57,6 +73,12 @@
         "Neither config file nor resource is specified"
         {:type ::load-config
          :options options}))))
+
+
+(defn load-config [options]
+  (-> options
+      -pre-load-config
+      -to-ordered-map))
 
 
 (defn main
