@@ -45,6 +45,8 @@
           config*
           (dissoc config :ave/order)]
 
+      config*
+      #_
       (apply sorted-map-by fn-cmp (mapcat seq config*)))
 
     config))
