@@ -1,12 +1,13 @@
 (ns ave.interceptor.session
   (:require
-   [ring.middleware.session :as session]
    [integrant.core :as ig]
+   [ring.middleware.session :as session]
 
    [clojure.spec.alpha :as s]))
 
 
-(defn make [& [options]]
+(defmethod ig/init-key ::ig
+  [_ options]
 
   (let [options (session/session-options options)]
 
@@ -19,17 +20,8 @@
        (update ctx :response session/session-response options))}))
 
 
-(def default
-  (make))
-
-
-(defmethod ig/init-key ::ig
-  [_ options]
-  (make options))
-
-
 (defmethod ig/pre-init-spec ::ig [_]
-  ::config)
+  (s/nilable ::config))
 
 
 (s/def ::config

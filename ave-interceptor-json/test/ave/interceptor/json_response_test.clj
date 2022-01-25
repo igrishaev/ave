@@ -32,7 +32,12 @@
            :body {:foo 42}})
 
         stack
-        (util/wrap-stack interceptors handler)
+        (-> []
+            (conj {:leave :response})
+            (into interceptors)
+            (conj {:enter
+                   (fn [ctx]
+                     (assoc ctx :response (handler ctx)))}))
 
         request
         {:request-method :get}
@@ -47,6 +52,4 @@
             :body "{\"foo\":42}"
             :headers {"Content-Type" "application/json; charset=utf-8"}}
 
-           resp)))
-
-  )
+           resp))))

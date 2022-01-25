@@ -1,12 +1,13 @@
 (ns ave.interceptor.cookies
   (:require
-   [ring.middleware.cookies :as cookies]
    [integrant.core :as ig]
+   [ring.middleware.cookies :as cookies]
 
    [clojure.spec.alpha :as s]))
 
 
-(defn make [& [options]]
+(defmethod ig/init-key ::*
+  [_ options]
   {:name ::interceptor
    :enter
    (fn [ctx]
@@ -16,23 +17,13 @@
      (update ctx :response cookies/cookies-response options))})
 
 
-(def default
-  (make))
-
-
-(defmethod ig/init-key ::ig
-  [_ options]
-  (make options))
-
-
-(defmethod ig/pre-init-spec ::ig [_]
-  ::config)
-
-
-(s/def ::decoder fn?)
-(s/def ::encoder fn?)
+(defmethod ig/pre-init-spec ::* [_]
+  (s/nilable ::config))
 
 
 (s/def ::config
   (s/keys :opt-un [::decoder
                    ::encoder]))
+
+(s/def ::decoder fn?)
+(s/def ::encoder fn?)

@@ -1,10 +1,10 @@
 (ns ave.db.pg
   (:require
-   [ave.db.hickary-cp :as ave.cp]
+   [ave.db.hickary-cp :as ave.hickary]
    [integrant.core :as ig]))
 
 
-(derive ::ig ::ave.cp/ig)
+(derive ::* ::ave.hickary/*)
 
 
 (def defaults
@@ -12,5 +12,5 @@
    :port-number 5432})
 
 
-(defmethod ig/prep-key :ig [_ pool-params]
+(defmethod ig/prep-key ::* [_ pool-params]
   (merge defaults pool-params))

@@ -10,6 +10,6 @@
    :overrides {:ave :debug}})
 
 
-(defmethod ig/init-key ::ig
+(defmethod ig/init-key ::*
   [_ params]
   (unilog/start-logging! (or params defaults)))

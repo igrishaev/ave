@@ -9,7 +9,8 @@
   (str (UUID/randomUUID)))
 
 
-(defn make [& [_]]
+(defmethod ig/init-key ::*
+  [_ _]
 
   {:name ::interceptor
    :enter
@@ -26,18 +27,6 @@
                request-id))})
 
 
-(def default
-  (make))
-
-
-(defmethod ig/init-key ::ig
-  [_ _]
-  (make _))
-
-
-(defmethod ig/pre-init-spec ::ig [_]
+#_
+(defmethod ig/pre-init-spec ::* [_]
   ::config)
-
-
-(s/def ::config
-  any?)

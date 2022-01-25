@@ -6,7 +6,9 @@
    [clojure.spec.alpha :as s]))
 
 
-(defn make [& [options]]
+(defmethod ig/init-key ::*
+  [_ options]
+
   {:name ::interceptor
    :enter
    (fn [{:as ctx :keys [request]}]
@@ -26,16 +28,7 @@
                           :http/message message})))))})
 
 
-(def default
-  (make))
-
-
-(defmethod ig/init-key ::ig
-  [_ options]
-  (make options))
-
-
-(defmethod ig/pre-init-spec ::ig [_]
+(defmethod ig/pre-init-spec ::* [_]
   (s/nilable ::config))
 
 

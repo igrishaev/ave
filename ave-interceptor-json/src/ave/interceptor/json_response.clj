@@ -6,23 +6,16 @@
    [clojure.spec.alpha :as s]))
 
 
-(defn make [& [options]]
+(defmethod ig/init-key ::*
+  [_ options]
+
   {:name ::interceptor
    :leave
    (fn [ctx]
      (update ctx :response json/json-response options))})
 
 
-(def default
-  (make))
-
-
-(defmethod ig/init-key ::ig
-  [_ options]
-  (make options))
-
-
-(defmethod ig/pre-init-spec ::ig [_]
+(defmethod ig/pre-init-spec ::* [_]
   (s/nilable ::config))
 
 

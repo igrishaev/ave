@@ -6,7 +6,7 @@
    [integrant.core :as ig]))
 
 
-(defmethod ig/init-key ::ig
+(defmethod ig/init-key ::*
   [_ _]
   (fn [ctx]
     (log/info "Help handler")

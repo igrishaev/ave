@@ -1,29 +1,21 @@
 (ns ave.interceptor.multipart-params
   (:require
-   [ring.middleware.multipart-params :as mp]
    [integrant.core :as ig]
+   [ring.middleware.multipart-params :as mp]
 
    [clojure.spec.alpha :as s]))
 
 
-(defn make [& [options]]
+(defmethod ig/init-key ::*
+  [_ options]
   {:name ::interceptor
    :enter
    (fn [ctx]
      (update ctx :request mp/multipart-params-request options))})
 
 
-(def default
-  (make))
-
-
-(defmethod ig/init-key ::ig
-  [_ options]
-  (make options))
-
-
-(defmethod ig/pre-init-spec ::ig [_]
-  ::config)
+(defmethod ig/pre-init-spec ::* [_]
+  (s/nilable ::config))
 
 
 (s/def ::config
@@ -31,6 +23,7 @@
                    ::fallback-encoding
                    ::store
                    ::progress-fn]))
+
 
 (s/def ::encoding string?)
 (s/def ::fallback-encoding string?)

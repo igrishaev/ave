@@ -21,8 +21,7 @@
   :profiles
   {:test
    {:dependencies
-    [[ave/core]
-     [exoscale/interceptor]]}
+    [[exoscale/interceptor]]}
 
    :dev
    {:resource-paths ["../dev-resources"]

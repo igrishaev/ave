@@ -4,7 +4,7 @@
    [integrant.core :as ig]))
 
 
-(derive ::ig ::ave.jdbc/ig)
+(derive ::* ::ave.jdbc/*)
 
 
 (def defaults
@@ -12,5 +12,5 @@
    :subprotocol "sqlite"})
 
 
-(defmethod ig/prep-key :ig [_ jdbc-spec]
+(defmethod ig/prep-key ::* [_ jdbc-spec]
   (merge jdbc-spec defaults))
