@@ -8,3 +8,7 @@ repl-core:
 
 repl-reitit:
 	lein sub -s ave-router-reitit with-profile +test repl
+
+
+repl-jetty:
+	lein sub -s ave-server-jetty with-profile +test repl

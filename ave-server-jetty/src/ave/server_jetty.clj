@@ -1,13 +1,10 @@
 (ns ave.server-jetty
   (:require
-   [ave.interceptor.util :as util]
-
-   [exoscale.interceptor :as ei]
-   [ring.adapter.jetty :as jetty]
    [integrant.core :as ig]
+   [ring.adapter.jetty :as jetty]
 
-   [clojure.spec.alpha :as s]
-   [clojure.tools.logging :as log]))
+   [clojure.tools.logging :as log]
+   [clojure.spec.alpha :as s]))
 
 
 (def defaults
@@ -18,65 +15,39 @@
   {:join? false})
 
 
-(defmethod ig/init-key ::ig
-  [_ {:as jetty-params
-      :keys [handler
-             interceptors]}]
+(defmethod ig/init-key ::*
+  [_ {:as params
+      :keys [port
+             handler]}]
 
-  (let [stack
-        (util/wrap-stack interceptors handler)
-
-        -handler
-        (fn [request]
-          (ei/execute {:request request} stack))
-
-        params*
+  (let [params*
         (-> defaults
-            (merge jetty-params)
+            (merge params)
             (merge overrides))
 
-        {:keys [port]}
-        params*
-
         server
-        (jetty/run-jetty -handler params*)]
+        (jetty/run-jetty handler params*)]
 
-    (log/infof "Jetty server has been started on port %s" port)
+    (log/infof "Jetty server has been started, port %s" port)
 
     server))
 
 
-(defmethod ig/halt-key! ::ig
+(defmethod ig/halt-key! ::*
   [_ ^org.eclipse.jetty.server.Server server]
   (.stop server)
-  (log/info "Jetty server has been stopped"))
+  (log/infof "Jetty server has been stopped"))
 
 
-(defmethod ig/pre-init-spec ::ig [_]
+(defmethod ig/pre-init-spec ::* [_]
   ::config)
 
 
 (s/def ::config
   (s/keys :req-un [::port
-                   ::handler]
-          :opt-un [::interceptors]))
+                   ::handler]))
 
 
 (s/def ::port int?)
 
-
-;; (s/def ::params
-;;   map?)
-
-
-(s/def ::handler
-  fn?)
-
-
-(s/def ::interceptors
-  (s/coll-of ::interceptor))
-
-
-;; todo: better spec
-(s/def ::interceptor
-  map?)
+(s/def ::handler fn?)
