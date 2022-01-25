@@ -7,92 +7,79 @@
  ;;
 
  :ave/order
- {:ave.logging.unilog/ig 0}
+ {:ave.logging.unilog/* 0}
 
  ;;
  ;; Logging
  ;;
 
- :ave.logging.unilog/ig
+ :ave.logging.unilog/*
  nil
 
  ;;
  ;; Handlers
  ;;
 
- :ave.demo.handler.api/ig
+ :ave.demo.handler.api/*
  nil
 
- :ave.demo.handler.hello/ig
+ :ave.demo.handler.hello/*
  nil
 
- :ave.demo.handler.help/ig
+ :ave.demo.handler.help/*
  nil
 
- :ave.demo.handler.not-found/ig
+ :ave.demo.handler.not-found/*
  nil
 
  ;;
  ;; Interceptors
  ;;
 
- :ave.interceptor.request-id/ig
+ :ave.interceptor.request-id/*
  nil
 
- :ave.interceptor.json-response/ig
+ :ave.interceptor.json-response/*
  nil
 
- :ave.interceptor.json-body/ig
+ :ave.interceptor.json-body/*
  nil
 
- :ave.interceptor.params/ig
+ :ave.interceptor.params/*
  nil
 
- :ave.interceptor.keyword-params/ig
+ :ave.interceptor.keyword-params/*
  nil
 
  ;;
  ;; Router
  ;;
 
- :ave.router-reitit/ig
- {:routes
-  [["/api"   {:get :handler/api}]
-   ["/hello" {:get :handler/hello}]
-   ["/help"  {:get :handler/help}]]
+ :ave.router-reitit/*
+ {:interceptors
+  [#ig/ref :ave.interceptor.request-id/*
+   #ig/ref :ave.interceptor.json-response/*
+   #ig/ref :ave.interceptor.json-body/*
+   #ig/ref :ave.interceptor.params/*
+   #ig/ref :ave.interceptor.keyword-params/*]
 
-  :command->handler
-  {:handler/api
-   #ig/ref :ave.demo.handler.api/ig
+  :routes
+  ["/" [["api"
+         {:get #ig/ref :ave.demo.handler.api/*}]
 
-   :handler/hello
-   #ig/ref :ave.demo.handler.hello/ig
+        ["hello"
+         {:get #ig/ref :ave.demo.handler.hello/*}]
 
-   :handler/help
-   #ig/ref :ave.demo.handler.help/ig
+        ["help"
+         {:get #ig/ref :ave.demo.handler.help/*}]
 
-   :handler/not-found
-   #ig/ref :ave.demo.handler.not-found/ig}
-
-  :command-not-found
-  :handler/not-found}
+        ["*"
+         {:any #ig/ref :ave.demo.handler.not-found/*}]]]}
 
  ;;
  ;; Server
  ;;
 
- :ave.server-jetty/ig
- {:port
-  8088
-
-  :handler
-  #ig/ref :ave.router-reitit/ig
-
-  :interceptors
-  [
-   #ig/ref :ave.interceptor.request-id/ig
-   #ig/ref :ave.interceptor.json-response/ig
-   #ig/ref :ave.interceptor.json-body/ig
-   #ig/ref :ave.interceptor.params/ig
-   #ig/ref :ave.interceptor.keyword-params/ig
-   ]}}
+ :ave.server-jetty/*
+ {:port 8088
+  :handler #ig/ref :ave.router-reitit/*}}
