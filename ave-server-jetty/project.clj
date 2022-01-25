@@ -24,8 +24,6 @@
     [[ch.qos.logback/logback-classic]]}}
 
   :dependencies
-  [[ave/core]
+  [[integrant]
    [org.clojure/tools.logging]
-   [integrant]
-   [exoscale/interceptor]
    [ring/ring-jetty-adapter]])

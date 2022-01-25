@@ -3,19 +3,36 @@
    [reitit.core :as r]
    [integrant.core :as ig]
 
+   [exoscale.interceptor :as interceptor]
    [clojure.spec.alpha :as s]))
 
 
-(defmethod ig/init-key ::ig
+(def interceptor-response
+  {:name ::response
+   :leave :response})
+
+
+(defn handler->interceptor
+  [handler]
+  {:name ::handler
+   :enter
+   (fn [ctx]
+     (assoc ctx :response (handler ctx)))})
+
+
+(def defaults
+  {:conflicts nil})
+
+
+(defmethod ig/init-key ::*
   [_ {:keys [routes
-             command->handler
-             command-not-found]}]
+             options
+             interceptors]}]
 
   (let [router
-        (r/router routes)]
+        (r/router routes (merge defaults options))]
 
-    (fn [{:as ctx
-          :keys [request]}]
+    (fn [request]
 
       (let [{:keys [uri
                     request-method]}
@@ -26,48 +43,50 @@
                     path-params]}
             (r/match-by-path router uri)
 
-            command
-            (or
-             (get data :any)
-             (get data request-method)
-             command-not-found
-             :handler/not-found)
-
             handler
-            (or
-             (get command->handler command)
-             (throw
-              (ex-info "Reitit handler not found"
-                       {:ex/type ::handler-not-found
-                        :http/status 404
-                        :reitit/command command
-                        :reitit/data data})))
+            (or (get data :any)
+                (get data request-method)
+                (or (throw (ex-info "Route not found"
+                                    {:uri uri
+                                     :method request-method
+                                     :options options}))))
 
-            ctx*
-            (update ctx
-                    :request
-                    merge
-                    {:command command
-                     :path path
-                     :path-params path-params})]
+            path-params
+            (dissoc path-params (keyword ""))
 
-        (handler ctx*)))))
+            {interceptors-route :interceptors}
+            data
+
+            request*
+            (assoc request
+                   :path path
+                   :path-params path-params)
+
+            stack
+            (-> []
+                (conj interceptor-response)
+                (into interceptors)
+                (into interceptors-route)
+                (conj (handler->interceptor handler)))]
+
+        (interceptor/execute {:request request*} stack)))))
 
 
-(defmethod ig/pre-init-spec ::ig [_]
+(defmethod ig/pre-init-spec ::* [_]
   ::config)
 
 
 (s/def ::config
-  (s/keys :req-un [::routes
-                   ::command->handler
-                   ::command-not-found]))
-
-(s/def ::command keyword?)
+  (s/keys :req-un [::routes]
+          :opt-un [::options
+                   ::interceptors]))
 
 (s/def ::routes vector?)
+(s/def ::options map?)
 
-(s/def ::command->handler
-  (s/map-of ::command fn?))
 
-(s/def ::command-not-found ::command)
+(s/def ::interceptors
+  (s/coll-of ::interceptor))
+
+
+(s/def ::interceptor map?)

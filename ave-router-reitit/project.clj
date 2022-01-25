@@ -24,5 +24,6 @@
     []}}
 
   :dependencies
-  [[metosin/reitit-core]
-   [integrant]])
+  [[integrant]
+   [metosin/reitit-core]
+   [exoscale/interceptor]])
