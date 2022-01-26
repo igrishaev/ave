@@ -57,6 +57,7 @@
    [ring/ring-jetty-adapter "1.9.4"]
    [ring/ring-json "0.5.1"]
    [ring/ring-core "1.9.5"]
+   [ring/ring-mock "0.4.0"]
    [selmer "1.12.34"]
    [integrant "0.8.0"]
    [metosin/sieppari "0.0.0-alpha13"]

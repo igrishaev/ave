@@ -21,7 +21,7 @@
   :profiles
   {:test
    {:dependencies
-    []}
+    [[ring/ring-mock "0.4.0"]]}
 
    :dev
    {:resource-paths ["../dev-resources"]
