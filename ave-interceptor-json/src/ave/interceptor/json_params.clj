@@ -1,13 +1,15 @@
 (ns ave.interceptor.json-params
   (:require
    [integrant.core :as ig]
+   [exoscale.interceptor :as interceptor]
    [ring.middleware.json :as json]
 
    [clojure.spec.alpha :as s]))
 
 
 (defmethod ig/init-key ::*
-  [_ options]
+  [_ {:as options
+      :keys [malformed-response]}]
 
   {:name ::interceptor
    :enter
@@ -18,14 +20,11 @@
 
        (assoc ctx :request request*)
 
-       (let [message
-             "Malformed JSON in request body"]
+       (let [response
+             (or malformed-response
+                 json/default-malformed-response)]
 
-         (throw (ex-info message
-                         {:ex/type ::malformed-json
-                          :http/status 400
-                          :http/content-type "text/plain"
-                          :http/message message})))))})
+         (interceptor/terminate (assoc ctx :response response)))))})
 
 
 (defmethod ig/pre-init-spec ::* [_]
@@ -34,7 +33,9 @@
 
 (s/def ::config
   (s/keys :opt-un [::key-fn
-                   ::keywords?]))
+                   ::keywords?
+                   ::malformed-response]))
 
 (s/def ::key-fn ifn?)
 (s/def ::keywords? boolean?)
+(s/def ::malformed-response map?)

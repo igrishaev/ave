@@ -1,26 +1,17 @@
 (ns ave.interceptor.json-response-test
   (:require
+   [ave.interceptor.json-response :as json-response]
 
-   [ave.interceptor.json-response :as json-resp]
+   [exoscale.interceptor :as interceptor]
+   [integrant.core :as ig]
 
-   [exoscale.interceptor :as ei]
-
-   ;; [integrant.core :as ig]
-   ;; [ring.middleware.json :as json]
-
-   ;; [clojure.spec.alpha :as s]
-
-   [ave.interceptor.util :as util]
-
-   [clojure.test :refer [is deftest]]
-
-   ))
+   [clojure.test :refer [is deftest]]))
 
 
 (deftest test-ok
 
-  (let [interceptors
-        [json-resp/default]
+  (let [interceptor
+        (ig/init-key ::json-response/* nil)
 
         capture
         (atom nil)
@@ -34,7 +25,7 @@
         stack
         (-> []
             (conj {:leave :response})
-            (into interceptors)
+            (conj interceptor)
             (conj {:enter
                    (fn [ctx]
                      (assoc ctx :response (handler ctx)))}))
@@ -43,7 +34,7 @@
         {:request-method :get}
 
         resp
-        (ei/execute {:request request} stack)]
+        (interceptor/execute {:request request} stack)]
 
     (is (= {:request-method :get}
            (:request @capture)))

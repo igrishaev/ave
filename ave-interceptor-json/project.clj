@@ -21,7 +21,7 @@
   :profiles
   {:test
    {:dependencies
-    [[exoscale/interceptor]]}
+    []}
 
    :dev
    {:resource-paths ["../dev-resources"]
@@ -31,4 +31,5 @@
   :dependencies
   [[integrant]
    [cheshire]
+   [exoscale/interceptor]
    [ring/ring-json]])

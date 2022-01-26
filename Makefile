@@ -12,3 +12,7 @@ repl-reitit:
 
 repl-jetty:
 	lein sub -s ave-server-jetty with-profile +test repl
+
+
+repl-interceptor-json:
+	lein sub -s ave-interceptor-json with-profile +test repl
