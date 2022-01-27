@@ -1,4 +1,4 @@
-(defproject ave/interceptor-ring "0.1.0-SNAPSHOT"
+(defproject com.github.igrishaev/ave-interceptor-ring "0.1.0-SNAPSHOT"
 
   :description
   "Ring-based interceptors for Ave"

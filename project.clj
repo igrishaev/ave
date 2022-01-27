@@ -1,4 +1,4 @@
-(defproject ave "0.1.0-SNAPSHOT"
+(defproject com.github.igrishaev/ave "0.1.0-SNAPSHOT"
 
   :description
   "A battery-included framework for Clojure"
@@ -29,16 +29,16 @@
   []
 
   :managed-dependencies
-  [[ave/core :version]
-   [ave/server-jetty :version]
-   [ave/interceptor-json :version]
-   [ave/interceptor-ring :version]
-   [ave/router-reitit :version]
-   [ave/db-jdbc :version]
-   [ave/db-pg :version]
-   [ave/db-sqlite :version]
-   [ave/db-hikari-cp :version]
-   [ave/logging-unilog :version]
+  [[com.github.igrishaev/ave-core :version]
+   [com.github.igrishaev/ave-server-jetty :version]
+   [com.github.igrishaev/ave-interceptor-json :version]
+   [com.github.igrishaev/ave-interceptor-ring :version]
+   [com.github.igrishaev/ave-router-reitit :version]
+   [com.github.igrishaev/ave-db-jdbc :version]
+   [com.github.igrishaev/ave-db-pg :version]
+   [com.github.igrishaev/ave-db-sqlite :version]
+   [com.github.igrishaev/ave-db-hikari-cp :version]
+   [com.github.igrishaev/ave-logging-unilog :version]
 
    [spootnik/unilog "0.7.29"]
    [aero "1.1.5"]

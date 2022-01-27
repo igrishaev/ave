@@ -1,7 +1,7 @@
 (def ave-version "0.1.0-SNAPSHOT")
 
 
-(defproject ave-demo "0.1.0-SNAPSHOT"
+(defproject com.github.igrishaev/ave-demo "0.1.0-SNAPSHOT"
 
   :description
   "Ave demo application"
@@ -31,10 +31,10 @@
   :dependencies
   [[org.clojure/clojure "1.10.3"]
 
-   [ave/core ~ave-version]
-   [ave/server-jetty ~ave-version]
-   [ave/router-reitit ~ave-version]
-   [ave/interceptor-json ~ave-version]
-   [ave/interceptor-ring ~ave-version]
-   [ave/db-pg ~ave-version]
-   [ave/logging-unilog ~ave-version]])
+   [com.github.igrishaev/ave-core ~ave-version]
+   [com.github.igrishaev/ave-server-jetty ~ave-version]
+   [com.github.igrishaev/ave-router-reitit ~ave-version]
+   [com.github.igrishaev/ave-interceptor-json ~ave-version]
+   [com.github.igrishaev/ave-interceptor-ring ~ave-version]
+   [com.github.igrishaev/ave-db-pg ~ave-version]
+   [com.github.igrishaev/ave-logging-unilog ~ave-version]])

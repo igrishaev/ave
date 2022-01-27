@@ -1,4 +1,4 @@
-(defproject ave/db-jdbc "0.1.0-SNAPSHOT"
+(defproject com.github.igrishaev/ave-db-jdbc "0.1.0-SNAPSHOT"
 
   :description
   "JDBC wrapper for Ave"

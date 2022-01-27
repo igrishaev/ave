@@ -1,4 +1,4 @@
-(defproject ave/server-jetty "0.1.0-SNAPSHOT"
+(defproject com.github.igrishaev/ave-server-jetty "0.1.0-SNAPSHOT"
 
   :description
   "HTTP Jetty server for Ave"

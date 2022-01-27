@@ -1,4 +1,4 @@
-(defproject ave/interceptor-json "0.1.0-SNAPSHOT"
+(defproject com.github.igrishaev/ave-interceptor-json "0.1.0-SNAPSHOT"
 
   :description
   "JSON interceptor for Ave"

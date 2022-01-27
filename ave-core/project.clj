@@ -1,4 +1,4 @@
-(defproject ave/core "0.1.0-SNAPSHOT"
+(defproject com.github.igrishaev/ave-core "0.1.0-SNAPSHOT"
 
   :description
   "Core parts of the Ave framework"

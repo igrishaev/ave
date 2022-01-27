@@ -1,4 +1,4 @@
-(defproject ave/db-pg "0.1.0-SNAPSHOT"
+(defproject com.github.igrishaev/ave-db-pg "0.1.0-SNAPSHOT"
 
   :description
   "JDBC/Postgresql wrapper for Ave"
@@ -24,5 +24,5 @@
     []}}
 
   :dependencies
-  [[ave/db-hikari-cp]
+  [[com.github.igrishaev/ave-db-hikari-cp]
    [org.postgresql/postgresql]])

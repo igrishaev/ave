@@ -1,4 +1,4 @@
-(defproject ave/router-reitit "0.1.0-SNAPSHOT"
+(defproject com.github.igrishaev/ave-router-reitit "0.1.0-SNAPSHOT"
 
   :description
   "Reitit router for Ave"

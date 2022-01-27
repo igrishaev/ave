@@ -1,4 +1,4 @@
-(defproject ave/db-hikari-cp "0.1.0-SNAPSHOT"
+(defproject com.github.igrishaev/ave-db-hikari-cp "0.1.0-SNAPSHOT"
 
   :description
   "Hikari CP wrapper for Ave"

@@ -1,4 +1,4 @@
-(defproject ave/db-sqlite "0.1.0-SNAPSHOT"
+(defproject com.github.igrishaev/ave-db-sqlite "0.1.0-SNAPSHOT"
 
   :description
   "JDBC/Sqlite wrapper for Ave"
@@ -24,5 +24,5 @@
     []}}
 
   :dependencies
-  [[ave/db-jdbc]
+  [[com.github.igrishaev/ave-db-jdbc]
    [org.xerial/sqlite-jdbc]])
