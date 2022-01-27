@@ -32,27 +32,7 @@
   (System/exit 1))
 
 
-(defn -to-ordered-map [config]
-
-  (if-let [order (get config :ave/order)]
-
-    (let [fn-cmp
-          (fn [key1 key2]
-            (compare
-             (get order key1 Integer/MAX_VALUE)
-             (get order key2 Integer/MAX_VALUE)))
-
-          config*
-          (dissoc config :ave/order)]
-
-      config*
-      #_
-      (apply sorted-map-by fn-cmp (mapcat seq config*)))
-
-    config))
-
-
-(defn -pre-load-config
+(defn load-config
   [{:as options
     :keys [config-file
            config-resource
@@ -81,13 +61,7 @@
          :options options}))))
 
 
-(defn load-config [options]
-  (-> options
-      -pre-load-config
-      -to-ordered-map))
-
-
-(defn add-signals [config]
+(defn -add-signals [config]
 
   (signal/with-handler :term
     (log/infof "Caught SIGTERM, quitting")
@@ -140,7 +114,7 @@
 
       (log/infof "The system has been started")
 
-      (add-signals config)
+      (-add-signals config)
 
       nil)
 

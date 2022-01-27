@@ -1,14 +1,6 @@
 
 
 {
-
- ;;
- ;; Meta
- ;;
-
- :ave/order
- {:ave.logging.unilog/* 0}
-
  ;;
  ;; Logging
  ;;
@@ -82,4 +74,5 @@
 
  :ave.server-jetty/*
  {:port 8088
-  :handler #ig/ref :ave.router-reitit/*}}
+  :handler #ig/ref :ave.router-reitit/*
+  :_ #ig/ref :ave.logging.unilog/*}}
